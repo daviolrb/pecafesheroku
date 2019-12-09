@@ -1,0 +1,196 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+{% block dashboard_content %}
+
+
+{% if request.user.entidade.grupo.is_formal or request.user.entidade.grupo.is_informal %}
+<form class="mt-2 mb-2" style="max-width: 600px;margin: auto;" method="post">
+	
+	{% csrf_token %}
+
+ 	<fieldset class="form-row">
+		
+		<legend>
+			Cadastro de Participante
+			<hr class="m-0 p-0">
+		</legend>
+
+	  <div class="form-group col-md-8">
+	    <label for="{{entidadeForm.nome.id_for_label}}">Nome completo do participante</label>
+	    {{entidadeForm.nome}}
+	    
+	    <small class="form-text text-muted">
+	    	{% if entidadeForm.nome.errors %}
+	    	{{entidadeForm.nome.errors}}
+	    	{%endif%}
+	    </small>
+	    
+	    <small id="nomeHelp" class="form-text text-muted"></small>
+	  </div>
+
+	  <div class="form-group col-md-4">
+	    <label for="{{entidadeFisicaForm.sexo.id_for_label}}">Sexo</label>
+	    {{entidadeFisicaForm.sexo}}
+	    <small class="form-text text-muted">
+	    	{% if entidadeFisicaForm.sexo.errors %}
+	    	{{entidadeFisicaForm.sexo.errors}}
+	    	{%endif%}
+	    </small>
+	    <small id="sexolHelp" class="form-text text-muted"></small>
+	  </div>
+
+	  <div class="form-group col-md-6">
+	    <label for="{{entidadeFisicaForm.cpf.id_for_label}}">CPF</label>
+	    {{entidadeFisicaForm.cpf}}
+	    
+	    <small class="form-text text-muted">
+	    	{% if entidadeFisicaForm.cpf.errors %}
+	    	{{entidadeFisicaForm.cpf.errors}}
+	    	{%endif%}
+	    </small>
+
+	    <small id="cpfHelp" class="form-text text-muted"></small>
+	  </div>
+
+	  <div class="form-group col-md-6">
+	    <label for="{{grupoIndividualForm.dap_fisica.id_for_label}}">DAP</label>
+	    {{grupoIndividualForm.dap_fisica}}
+
+	    <small class="form-text text-muted">
+	    	{% if grupoIndividualForm.dap_fisica.errors %}
+	    	{{grupoIndividualForm.dap_fisica.errors}}
+	    	{%endif%}
+	    </small>
+
+	<div class="custom-control custom-switch">
+	  <input type="checkbox" class="custom-control-input" id="has_dap" checked="checked">
+	  <label class="custom-control-label" for="has_dap" id="has_dap_txt">
+	  	Tenho uma dap para cadastrar
+	  </label>
+	</div>
+
+	  </div>
+
+	</fieldset>
+
+	<fieldset class="form-row">
+		
+		<legend>
+			Endereço
+			<hr class="m-0 p-0">
+		</legend>
+
+	  <div class="form-group col-md-2">
+	    <label for="{{entidadeForm.uf.id_for_label}}">UF</label>
+	    {{entidadeForm.uf}}
+	    <small class="form-text text-muted">
+	    	{% if entidadeForm.uf.errors %}
+	    	{{entidadeForm.uf.errors}}
+	    	{%endif%}
+	    </small>
+	    <small id="ufHelp" class="form-text text-muted"></small>
+	  </div>
+
+	  <div class="form-group col-md-6">
+	    <label for="{{entidadeForm.municipio.id_for_label}}">Município</label>
+	    {{entidadeForm.municipio}}
+	    <small class="form-text text-muted">
+	    	{% if entidadeForm.municipio.errors %}
+	    	{{entidadeForm.municipio.errors}}
+	    	{%endif%}
+	    </small>
+	    <small id="municipioHelp" class="form-text text-muted"></small>
+	  </div> 
+
+	  <div class="form-group col-md-4">
+	    <label for="{{entidadeForm.cep.id_for_label}}">CEP</label>
+	    {{entidadeForm.cep}}
+	    <small class="form-text text-muted">
+	    	{% if entidadeForm.cep.errors %}
+	    	{{entidadeForm.cep.errors}}
+	    	{%endif%}
+	    </small>
+	    <small id="cepHelp" class="form-text text-muted"></small>
+	  </div>
+
+	</fieldset>
+
+	<fieldset class="form-row">
+
+	<legend>
+			Contato
+			<hr class="m-0 p-0">
+	</legend>		
+
+	  <div class="form-group col-md-6">
+	    <label for="{{entidadeForm.telefone_celular.id_for_label}}">Celular</label>
+	    {{entidadeForm.telefone_celular}}
+
+	    <small class="form-text text-muted">
+	    	{% if entidadeForm.telefone_celular.errors %}
+	    	{{entidadeForm.telefone_celular.errors}}
+	    	{%endif%}
+	    </small>
+
+	    <small id="telefone_celularHelp" class="form-text text-muted"></small>
+	  </div>
+
+	  <div class="form-group col-md-6" id="{{entidadeForm.telefone_fixo.id_for_label}}">
+	    <label for="{{entidadeForm.telefone_fixo.id_for_label}}">Telefone Fixo</label>
+	    {{entidadeForm.telefone_fixo}}
+
+	    <small class="form-text text-muted">
+	    	{% if entidadeForm.telefone_fixo.errors %}
+	    	{{entidadeForm.telefone_fixo.errors}}
+	    	{%endif%}
+	    </small>
+
+	    <small id="telefone_fixoHelp" class="form-text text-muted"></small>
+	  </div>
+
+	</fieldset>
+
+	  <div class="form-group text-center">
+	    <button class="btn btn-primary mb-2" type="submit">Adicionar Participante</button>
+	  </div>
+</form>  
+
+<script type="text/javascript">
+
+	
+$("#has_dap").change(function(){
+
+  if (this.checked) {
+  	$("#{{grupoIndividualForm.dap_fisica.id_for_label}}").removeAttr("disabled");
+  	$("#has_dap_txt").text("Possui uma DAP");
+  }else{
+  	$("#{{grupoIndividualForm.dap_fisica.id_for_label}}").attr({"disabled": "true"});
+  	$("#has_dap_txt").text("Não possui uma DAP");
+  }
+
+});
+
+$("#{{entidadeForm.uf.id_for_label}}").change(function(){
+	$.ajax({
+		  type: 'GET',
+		  url: `/lista-cidade/${this.value}`,
+		  dataType: 'json',
+		success: function(cidades){
+		$("#{{entidadeForm.municipio.id_for_label}}").empty()
+		for (var i = 0 ; i < cidades.length ; i++) {
+			$("#{{entidadeForm.municipio.id_for_label}}").append(new Option(cidades[i]['fields'].municipio, cidades[i].pk));
+		}
+		}
+	});
+});
+
+</script>
+{%else%}
+    <p class="text-danger text-center pt-4 pb-4">
+    	Esta opção não está disponível para grupos individuais!
+	</p>
+{%endif%}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Novo Usuário{% endblock %}
+
+{% block content %}
+
+<div class="card shadow mt-4" style="max-width: 400px;margin: auto;">
+	
+	<header class="card-header text-center">
+		<i class="fas fa-thumbs-up fa-2x p-3 border border-light bg-white  rounded-circle"></i>
+		<h3>Cadastro concluido com sucesso!</h3>
+	</header>
+
+<section class="card-body">
+
+	<p class="text-success text-center">Acesse a área de login para ter acesso ao sistema.</p>
+	<p class="text-center"><a class="btn btn-primary" href="{% url 'conta:entrar' %}">Fazer login agora</a></p>
+
+</section>
+
+</div>
+
+{% endblock %} 

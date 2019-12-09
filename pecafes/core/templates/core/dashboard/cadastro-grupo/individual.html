@@ -1,0 +1,81 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+    {% block content %}
+
+
+      <section class="container shadow mt-4 pb-4">
+
+
+
+        {% if not request.user.grupo.cadastro_individual_iniciado %}
+
+        <header class="text-center" style="margin: auto;">
+          
+            <h1 class="h3">Cadastro de Grupo Individual</h1>
+            
+        </header>
+
+
+          <form class="p-4" style="max-width: 700px;margin: auto;" method="post">
+
+            {% csrf_token %}
+
+            <fieldset class="form-group">
+
+              <label for="{{grupoIndividualForm.dap_fisica.id_for_label}}">Digite o código da sua DAP Física</label>
+                
+              {% if grupoIndividualForm.dap_fisica.errors %}
+
+                {{grupoIndividualForm.dap_fisica.errors}}
+
+              {% endif %}
+
+              {{grupoIndividualForm.dap_fisica}}
+
+            </fieldset>
+
+            <fieldset class="pb-4">
+              
+              <legend class="text-center">
+                Selecione os produtos que este participante oferece
+              </legend>
+
+                  <select multiple class="form-control" name="produtos" id="produtos" size="10">
+
+                  {% for produto in produtos %}
+                    <option value="{{produto.pk}}">{{produto.nome}}</option>
+                  {% endfor %}
+
+                  </select>
+                  <small class="text-muted">Pressione <kbd>Ctrl</kbd> para selecionar múltiplos produtos</small>
+            </fieldset>
+
+            <div class="form-group text-center"> 
+              
+              <button class="btn btn-primary mb-2" type="submit">
+                 Concluir Cadastro
+              </button>
+              
+              <!--
+              <a href="{% url 'core:finaliza-cadastro-formal' %}" class="btn btn-primary text-white mb-2">
+                Concluir Cadastro
+              </a>
+            -->
+
+            </div>
+
+          </form>
+
+          {% else %}
+
+            <p class="p-4 text-center text-success">
+              Você já está cadastrado como grupo individual
+            </p>
+
+          {% endif %}
+
+      </section> 
+
+{% endblock %}

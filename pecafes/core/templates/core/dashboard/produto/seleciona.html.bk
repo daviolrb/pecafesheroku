@@ -1,0 +1,33 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+{% block dashboard_content %}
+
+<form class="p-4" style="max-width: 700px;margin: auto;" method="post" action="{% url 'core:adicionar-produto' %}">
+
+	{% csrf_token %}
+
+  <h1 class="p-2 text-center h3">Cadastro de Produto</h1>
+
+  <fieldset class="form-group">
+    <label for="produtos">Selecione os produtos</label>
+    <select multiple class="form-control" name="produtos" id="produtos" size="10">
+
+		{% for produto in produtos %}
+			<option value="{{produto.pk}}">{{produto.nome}}</option>
+		{% endfor %}
+
+    </select>
+    <small class="form-text text-muted">
+    	Caso esteja em um computador, mantenha a tecla <kbd>Ctrl</kbd> para seleciona multiplos produtos
+    </small>
+  </fieldset>
+
+  <div class="form-group form-check text-center">
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+  </div>
+
+</form>
+
+{% endblock %}

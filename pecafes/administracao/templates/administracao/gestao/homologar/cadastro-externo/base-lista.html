@@ -1,0 +1,40 @@
+{% extends "administracao/gestao/dashboard.html" %}
+
+{% block dashboard_body_content_protectd %}
+
+{% if cadastros|length  > 0 %}
+
+	{% block base_lista_top %}{%endblock%}
+
+		<table class="table table-striped">
+
+		  <thead>
+		    <tr>
+				{% block base_lista_thead %}
+				
+				{%endblock%}
+		    </tr>
+		  </thead>
+		  
+		  <tbody>
+
+				{% block base_lista_tbody %}
+
+				{%endblock%}
+
+		  </tbody>
+		
+		</table> 
+	 	
+		{% block base_lista_bottom %}{%endblock%}
+
+
+{% else %}
+	
+	<p class="text-center text-info p-4">
+		Não há cadastros disponíveis para serem homologados no momento.
+	</p>
+
+{% endif %}
+
+{% endblock %}

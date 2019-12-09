@@ -1,0 +1,143 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Produtos Cadastrados{% endblock %}
+
+{% block dashboard_body %}
+
+{% if request.GET.finish %}
+<p class="p-4 pb-0 mb-0 text-center ">
+  Antes de finalizar seu cadastro, verifique a relação abaixo:
+</p>
+{% endif %}
+
+<h1 class="p-4 text-center h3">Lista de produtos que você oferta</h1>
+
+<table class="table table-hover text-center">
+    <thead>
+
+        <tr>
+
+          {% if request.user.grupo.grupoinformal or request.user.grupo.formal %}
+            <th class="text-left" scope="col">
+              Participante
+            </th>
+          {%endif%}
+          
+          <th class="text-left" scope="col">
+            Produto
+          </th>
+          
+          <th scope="col">
+            Capacidade de produção
+          </th>
+           
+          <th scope="col">
+            Fornece entre os meses: 
+          </th>
+
+          <th scope="col" class="text-left">
+            Status
+          </th>
+
+        </tr>
+
+    </thead>
+  <tbody>
+
+  <caption>
+
+    <p>Minha Lista de Produtos Cadastrados</p>
+  		<hr>
+  		<p>
+  			<span class="badge badge-success">Aprovado</span>
+  			<br>Significado: O produto foi verifica e aprovado.
+  		</p>
+  		
+  		<p>
+  			<span class="badge badge-warning">Aguardando</span>
+  			<br>Significado: Produto aguardando aprovação da PECAFES.
+  		</p>
+  		
+  	</caption>
+
+  	{% for produto in produtos %}
+	    <tr>
+        <td class="text-left">
+          {% if request.user.grupo.grupoinformal or request.user.grupo.grupoformal %}
+            {{produto.participante.nome}}
+          {% endif %}
+      </td>
+	      <td class="text-left">{{produto.produto.nome}}</td>
+	      <td>
+            {{produto.quantidade}}
+            <span class="badge badge-primary">
+                {{produto.produto.unidade}} 
+            </span>
+        </td>
+	      
+        <td>
+
+            {% if produto.sazonalidade_janeiro %}
+              <span class="badge badge-info border">Janeiro</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_fevereiro %}
+              <span class="badge badge-info border">Fevereiro</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_marco %}
+              <span class="badge badge-info border">Março</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_abril %}
+              <span class="badge badge-info border">Abril</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_maio %}
+              <span class="badge badge-info border">Maio</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_junho %}
+              <span class="badge badge-info border">Junho</span>
+            {% endif%}
+
+            {% if produto.produto.sazonalidade_julho %}
+              <span class="badge badge-info border">Julho</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_agosto %}
+              <span class="badge badge-info border">Agosto</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_setembro %}
+              <span class="badge badge-info border">Setembro</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_outubro %}
+              <span class="badge badge-info border">Outubro</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_novembro %}
+              <span class="badge badge-info border">Novembro</span>
+            {% endif%}
+
+            {% if produto.sazonalidade_dezembro %}
+              <span class="badge badge-info border">Dezembro</span>
+            {% endif%}
+
+        </td> 
+
+        <td class="text-left">
+	      		{% if produto.validado %}
+	      			<span class="badge badge-success">Aprovado</span>
+	      		{% else %}
+	      			<span class="badge badge-warning">Aguardando</span>
+	      		{% endif %}
+	      </td>
+	    
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

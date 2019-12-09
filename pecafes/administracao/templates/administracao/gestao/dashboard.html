@@ -1,0 +1,53 @@
+{% extends "administracao/base-dashboard.html" %}
+
+{% block title %}Painel de Controle: Gestão{% endblock %}
+
+
+	{% block dashborad_header_menu_content %}
+
+		{% if request.user.tipo_usuario == request.user.GESTOR  %}
+
+					<li class="nav-item dropdown">
+					    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Homologar Cadastros</a>
+					    <div class="dropdown-menu">
+					      
+					      <a class="dropdown-item" href="#">
+					      	Assistência Técnica
+					      </a>
+					      
+					      <a class="dropdown-item" href="{% url 'administracao:lista-homologar' tipo_lista='lista-individual' %}">
+					      	Agricultor individual
+					      </a>
+					      
+					      <a class="dropdown-item" href="{% url 'administracao:lista-homologar' tipo_lista='lista-informal' %}">
+					      	Grupos Informais
+					      </a>
+					      
+					      <a class="dropdown-item" href="{% url 'administracao:lista-homologar' tipo_lista='lista-formal' %}">
+					      	Associações e Cooperativas
+					      </a>
+					  
+					  </li>
+		
+		{% endif%}
+
+	{%endblock%}
+
+	{% block dashboard_body_content %}
+
+		{% if request.user.tipo_usuario == request.user.GESTOR  %}
+
+			{% block dashboard_body_content_protectd %}
+			{% endblock %}
+		
+		{% else%}
+
+			<h1 class="h3 text-center p-0 m-0">Permissão Negada!</h1>
+			<p class="p-4 text-center m-0 text-danger font-weight-bold">
+				Esta área é destinada apenas aos usuários gestores
+			</p>
+		
+		{% endif%}
+
+	{% endblock %}
+ 

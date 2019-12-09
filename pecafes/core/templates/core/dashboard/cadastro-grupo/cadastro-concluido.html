@@ -1,0 +1,45 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Cadastro Concluido{% endblock %}
+
+{% block dashboard_content %}
+<div class="container mt-3 mb-3">
+<div class="card shadow mb-3" style="max-width: 400px;margin: auto;">
+	
+	<header class="card-header text-center">
+		<i class="fas fa-thumbs-up fa-2x p-3 border border-light bg-white  rounded-circle"></i>
+		<h3>Cadastro concluido com sucesso!</h3>
+	</header>
+
+	<section class="card-body">
+
+		<p class="text-success text-center">
+			
+			{% if cadastro_formal %}
+				Cadastro de associações e cooperativa foi concluido com sucesso. 
+				Aguarde até a equipe PECAFES homologar seu cadastro.
+			{% endif %}
+
+			{% if cadastro_informal %}
+				Cadastro de grupo informal foi concluido com sucesso. 
+				Aguarde até a equipe PECAFES homologar seu cadastro.
+			{% endif %}
+
+			{% if cadastro_individual %}
+				Cadastro de agricultor individual foi concluido com sucesso. 
+				Aguarde até a equipe PECAFES homologar seu cadastro.
+			{% endif %}
+
+		</p>
+		<p class="text-center p-0 m-0">
+			<a class="btn btn-primary" href="{% url 'core:dashboard' %}">
+				Voltar
+			</a>
+		</p>
+
+	</section>
+
+</div>	
+</div>
+
+{% endblock %}

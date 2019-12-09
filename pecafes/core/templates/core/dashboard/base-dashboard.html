@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+{% block content %}
+ 
+<section class="container shadow">
+
+{% block dashboard_content %}
+
+	{% block dashborad_header %}
+		<header>
+			
+			<ul class="nav nav-tabs">
+				
+					<li class="nav-item">
+					   <a class="nav-link {% block menu_home %}active{%endblock%}" href="{% url 'core:dashboard' %}">Visão Geral</a>
+					</li>
+
+					{% if request.user.grupo %}
+						{% if request.user.grupo.grupoformal or request.user.grupo.informal %}
+					<li class="nav-item dropdown">
+					    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Produto</a>
+					    <div class="dropdown-menu">
+					      <a class="dropdown-item" href="{% url 'core:meus-produtos' %}">Meus produtos</a>
+					      <a class="dropdown-item" href="{% url 'core:seleciona-produto' %}">Adicionar</a>
+					      <div class="dropdown-divider"></div>
+					      <a class="dropdown-item" href="#">...</a>
+					    </div>
+					  </li>
+					  	  {%endif%}
+					  {%endif%}
+ 					
+ 					{% if request.user.grupo %}
+ 						{% if request.user.grupo.grupoformal or request.user.grupo.informal %}
+					<li class="nav-item dropdown">
+					    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Participantes</a>
+					    <div class="dropdown-menu">
+					      	<a class="dropdown-item" href="{% url 'core:lista-grupo-participante' %}">Lista de participantes</a>
+					      	<a class="dropdown-item" href="{% url 'core:cadastro-participante' %}">Adicionar</a>
+					    </div>
+					</li> 
+						{%endif%}
+					{%endif%}
+
+					<li class="nav-item dropdown">
+					    <a class="nav-link dropdown-toggle {% block menu_config %}{%endblock%}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configurações</a>
+					    <div class="dropdown-menu">
+						    <a class="dropdown-item" href="#">Segurança</a>
+						    <a class="dropdown-item" href="">Alterar perfil</a>
+						    <div class="dropdown-divider"></div>
+						    <a class="dropdown-item" href="#">Ajuda</a>
+					    </div>
+					  </li>
+					</ul>
+		</header>
+	{%endblock%}
+
+
+{% if request.user.grupo.cadastro_formal_iniciado and not request.user.grupo.cadastro_formal_finalizado%}
+	<div class="box" style="max-width: 400px;margin:auto;">
+
+	<header>
+		
+		<h4 class="text-danger text-center">
+			<i class="fas fa-exclamation-triangle h5 pb-0 mb-0 mt-3 rounded-circle" class="text-center"> 
+			</i><br>
+			Atenção: Cadastro não finalizado!
+		</h4>
+	</header>
+
+	<p class="text-center">
+		Seu cadastro de <strong>Associação e cooperativas</strong> foi iniciado mas não foi concluido. 
+		Para continuar o cadastro <a href="{% url 'core:cadastro-grupo-formal-add-participante' tipo_grupo=request.user.grupo.FORMAL %}" class="badge badge-primary text-light">clique aqui</a>
+	</p>
+
+	</div>
+
+{% endif %}
+{% if request.user.grupo.cadastro_informal_iniciado and not request.user.grupo.cadastro_informal_finalizado%}
+<div class="box" style="max-width: 400px;margin:auto;">
+
+	<header>
+		
+		<h4 class="text-danger text-center">
+			<i class="fas fa-exclamation-triangle h5 pb-0 mb-0 mt-3 rounded-circle" class="text-center"> 
+			</i><br>
+			Atenção: Cadastro não finalizado!
+		</h4>
+	</header>
+
+	<p class="text-center">
+		Seu cadastro de <strong>grupo informal</strong> foi iniciado mas não foi concluido. 
+		Para continuar o cadastro <a href="{% url 'core:cadastro-grupo-informal-add-participante' tipo_grupo=request.user.grupo.INFORMAL %}" class="badge badge-primary text-light">clique aqui</a>
+	</p>
+
+	</div>
+{%endif%}
+
+{% if request.user.grupo.cadastro_individual_iniciado and not request.user.grupo.cadastro_individual_finalizado%}
+<div class="box" style="max-width: 400px;margin:auto;">
+
+	<header>
+		
+		<h4 class="text-danger text-center">
+			<i class="fas fa-exclamation-triangle h5 pb-0 mb-0 mt-3 rounded-circle" class="text-center"> 
+			</i><br>
+			Atenção: Cadastro não finalizado!
+		</h4>
+	</header>
+
+	<p class="text-center">
+		Seu cadastro de <strong>agricultor individual</strong> foi iniciado mas não foi concluido. 
+		Caso queira adicionar mais produtos 
+		<a href="{% url 'core:seleciona-produto' %}">clique aqui</a>
+		. Para finalizar o cadastro de 
+		<a href="{% url 'core:finaliza-cadastro-individual' %}" class="badge badge-primary text-light">clique aqui</a>
+	</p>
+
+	</div>
+{%endif%}
+
+
+	{% if message %}
+		{% if is_error%}
+			<p class="text-center p-4 m-4 text-danger">{{message}}</p>
+		{%else%}
+			<p class="text-center p-4 m-4 text-success">{{message}}</p>
+		{%endif%}
+	{% endif %}
+
+	{% block dashboard_body %}
+
+		<p class="pl-5 mt-5 font-weight-bold">
+			Bem-vindo 
+			<span class="font-weight-normal">{{request.user.entidade.nome}}</span>
+		</p>
+
+		<p class="pl-5 font-weight-bold">Grupos associados</p>
+			<ul style="list-style: none;">
+				
+<li class="pl-5" > 
+
+	<!--
+		G R U P O F O R M A L
+	-->
+	{% if not request.user.grupo.cadastro_formal_iniciado %}
+		<p>
+			<a href="{% url 'core:seleciona-formal' %}">
+				Cadastrar-me no grupo formal(associação ou cooperativa)
+			</a>
+		</p>
+	{% else %}
+ 		<p class="font-weight-normal">Associações e Cooperativas:<br>
+		{% if request.user.grupo.cadastro_formal_finalizado %}
+			<!-- Cadastro concluido -->
+			{% if request.user.grupo.is_formal %}
+				<span class="badge badge-success font-weight-bold">
+					Cadastro homologado
+				</span>
+			{%else%}
+				<span class="badge badge-warning font-weight-bold">
+					Aguardando homologação
+				</span>
+			{%endif%}
+
+		{%else%}
+
+			<!-- Cadastro em progresso -->
+			<span class="badge badge-info border font-weight-bold">
+				Continuar cadastrastro de Associação e cooperativas
+			</span>
+		
+		{%endif%}
+		</p>
+
+	{% endif %}
+</li> 
+
+
+
+<li class="pl-5" > 
+	<!--
+		G R U P O I N F O R M A L
+	-->
+	{% if not request.user.grupo.cadastro_informal_iniciado %}
+		<p>
+			<a href="{% url 'core:cadastro-informal' %}">
+				Cadastrar-me como no grupo informal
+			</a>
+		</p>	
+	{% else %}
+ 		<p class="font-weight-normal">Grupo informal:<br>
+		{% if request.user.grupo.cadastro_informal_finalizado %}
+			<!-- Cadastro concluido -->
+			{% if request.user.grupo.is_informal %}
+				<span class="badge badge-success font-weight-bold">
+					Cadastro homologado
+				</span>
+			{%else%}
+				<span class="badge badge-warning font-weight-bold">
+					Aguardando homologação
+				</span>
+			{%endif%}
+
+		{%else%}
+
+			<!-- Cadastro em progresso -->
+			<span class="badge badge-info border font-weight-bold">
+				Cadastro de grupo informa iniciado, mas ainda não foi finalizado!
+			</span>
+		
+		{%endif%}
+		</p>
+
+	{% endif %}
+</li> 
+
+
+<li class="pl-5" > 
+	<!--
+		G R U P O I N D I V I D U A L
+	-->
+	{% if not request.user.grupo.cadastro_individual_iniciado %}
+		<p>
+			<a href="{% url 'core:cadastro-individual' %}">
+				Cadastrar-me no grupo individual
+			</a>
+		</p>	
+	{% else %}
+ 		<p class="font-weight-normal">Agricultor Individual:<br>
+		{% if request.user.grupo.cadastro_individual_finalizado %}
+			<!-- Cadastro concluido -->
+			{% if request.user.grupo.is_individual %}
+				<span class="badge badge-success font-weight-bold">
+					Cadastro homologado
+				</span>
+			{%else%}
+				<span class="badge badge-warning font-weight-bold">
+					Aguardando homologação
+				</span>
+			{%endif%}
+
+		{%else%} 
+			<!-- Cadastro em progresso -->
+			<span class="badge badge-info border font-weight-bold">
+				Cadastro de agricultor iniciado, mas ainda não foi finalizado!
+			</span>
+		
+		{%endif%}
+		</p>
+
+	{% endif %}
+</li> 
+ </ul>
+	{%endblock%}
+ 
+{% endblock %} 
+
+</section>
+
+{% endblock %}

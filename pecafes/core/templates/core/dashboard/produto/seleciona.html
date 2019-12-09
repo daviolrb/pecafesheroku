@@ -1,0 +1,83 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+{% block dashboard_content %}
+
+<form id="formProduto" class="p-4" style="margin: auto;" method="post" action="{% url 'core:adicionar-produto' %}">
+
+	{% csrf_token %}
+
+ <h1 class="p-2 text-center h3">Cadastro de Produto</h1>
+
+  <fieldset class="form-group form-row">
+
+
+    <div class="col-md-6">
+        <label for="select_produtos">Produtos dispoíveis</label>
+        <select class="form-control" name="select_produtos" id="select_produtos" size="10">
+
+        {% for produto in produtos %}
+          <option value="{{produto.pk}}">{{produto.nome}}</option>
+        {% endfor %}
+
+        </select>
+        <small class="form-text text-muted">
+          Caso esteja em um computador, mantenha a tecla <kbd>Ctrl</kbd> para seleciona multiplos produtos
+        </small>      
+    </div>
+
+    <div class="align-middle col-md-1 p-0 m-0">
+        <button type="button" id="addProduto" class="btn btn-primary btn-sm"> + </button>
+        <button type="button" id="removeProduto" class="btn btn-primary btn-sm"> - </button> 
+    </div>
+
+      <div class="col-md-5">
+        <label for="produtos">Produtos selecionados</label>
+        <select class="form-control" multiple name="produtos" id="produtos" size="10"></select>
+        <small class="form-text text-muted">
+          Se o produto que você desejar ofertar não está na lita <a href="">clique aqui</a> e adicione um novo.
+        </small>      
+    </div>
+
+
+  </fieldset>
+
+  <div class="form-group form-check text-center">
+    <button type="submit" id="env-produto" class="btn btn-primary">Adicionar</button>
+  </div>
+
+</form>
+
+
+<script type="text/javascript">
+  
+  $("#addProduto").click(function(){
+
+    let id = $("#select_produtos option:selected").val()
+    let nome = $("#select_produtos option:selected").html()
+
+    if( id==undefined || nome==undefined){
+      alert("Selecione o produto a ser adicionado")
+      return;
+    }
+
+    $("#produtos").append(new Option(nome, id));
+
+  }); 
+
+  $("#removeProduto").click(function(){
+    $("#produtos option:selected").remove(); 
+  }); 
+ 
+$("#formProduto").submit(function(e){
+
+    produtos = document.getElementById("produtos");
+    for( p = 0 ; p < produtos.length ; p++ ){
+      produtos[p].selected = true
+    }
+  });
+
+</script>
+
+{% endblock %}

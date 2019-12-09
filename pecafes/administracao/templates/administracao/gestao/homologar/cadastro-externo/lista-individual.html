@@ -1,0 +1,34 @@
+{% extends "administracao/gestao/homologar/cadastro-externo/base-lista.html" %}
+
+
+	{% block base_lista_top %}
+		<h1 class="text-center h3 p-2 m-2">Homologar: Lista de Agricultores Individuais</h1>
+	{%endblock%}
+
+	{% block base_lista_thead %}	    
+		<tr>
+			<th scope="col">Nome do proponente</th>
+			<th scope="col">Data Cadastro</th>
+		</tr>
+	{%endblock%}
+
+
+	{% block base_lista_tbody %}
+
+		{% for cadastro in cadastros %}
+
+		    <tr>
+		      <td>
+		      	<a href="{% url 'administracao:homologar-cadatro-externo' tipo_grupo='individual' grupo_id=cadastro.pk %}">
+		      		{{cadastro.entidade_individual.nome}}
+		      	</a>
+		      </td>
+		      
+			<td scope="col">
+				{{cadastro.grupoindividual.data_adicionado}}
+			</td>
+		    
+		    </tr>
+		{% endfor %}
+
+	{%endblock%} 

@@ -1,0 +1,80 @@
+{% extends "administracao/gestao/dashboard.html" %}
+
+{% block dashboard_body_content_protectd %}
+
+	<h1 class="h3 text-center">Homologação de Agricultor Individual</h1>	
+
+	<table class="table table-hover">
+
+		<caption>
+			Dados do agricultor individual:<br>
+			<p class="text-dark m-0">Nome: {{entidadeGrupo.nome}}</p>
+			<p class="text-dark m-0">CPF: {{entidadeGrupo.entidadefisica.cpf}}</p>
+			<p class="text-dark m-0">
+				DAP Física: 
+				{% if entidadeGrupo.entidade_individual.grupoindividual.dap_fisica %}
+					{{entidadeGrupo.entidade_individual.grupoindividual.dap_fisica}}
+				{% else %}
+					Não possui dap cadastrado
+				{% endif %}
+			</p>
+		</caption>
+
+	  <thead>
+	    <tr>
+	      <th scope="col">Produto</th>
+	      <th scope="col">Unidade</th>
+	      <th scope="col">Capacidade de produção</th>
+	      <th scope="col">Sazonalidade de produção</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+
+	  	{% for produto in produtosParticipantesGrupo %}
+	    <tr>
+	      <td>{{produto.produto.nome}}</td>
+	      <td>
+	      	<span class="badge badge-primary">{{produto.produto.unidade}}</span>
+	      </td>
+	      <td>{{produto.quantidade}}</td>
+	      <td>
+	      	
+	      		{% if produto.sazonalidade_janeiro %}<span class="badge badge-primary">Janeiro</span>{%endif%}
+
+	      		{% if produto.sazonalidade_fevereiro %}<span class="badge badge-primary">Fevereiro</span>{%endif%}
+
+	      		{% if produto.sazonalidade_marco %}<span class="badge badge-primary">Março</span>{%endif%}
+
+	      		{% if produto.sazonalidade_abril %}<span class="badge badge-primary">Abril</span>{%endif%}
+
+	      		{% if produto.sazonalidade_maio %}<span class="badge badge-primary">Maio</span>{%endif%}
+
+	      		{% if produto.sazonalidade_junho %}<span class="badge badge-primary">Junho</span>{%endif%}
+
+	      		{% if produto.sazonalidade_julho %}<span class="badge badge-primary">Julho</span>{%endif%}
+
+	      		{% if produto.sazonalidade_agosto %}<span class="badge badge-primary">Agosto</span>{%endif%}
+
+	      		{% if produto.sazonalidade_setembro %}<span class="badge badge-primary">Setembro</span>{%endif%}
+
+	      		{% if produto.sazonalidade_outubro %}<span class="badge badge-primary">Outubro</span>{%endif%}
+
+	      		{% if produto.sazonalidade_novembro %}<span class="badge badge-primary">Novembro</span>{%endif%}
+
+	      		{% if produto.sazonalidade_dezembro %}<span class="badge badge-primary">Dezembro</span>{%endif%}
+
+	      </td>
+	    </tr>
+
+	    {% endfor%}
+	  </tbody>
+	</table>
+
+	<p class="text-center">
+		<a class="btn btn-primary text-white" 
+		href="{% url 'administracao:finalizar-homologar-cadastro' tipo_grupo=tipo_grupo grupo_id=grupo_id %}">
+			Homologar Cadastro 
+		</a>
+	</p>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+	<p class="text-success font-weight-bold" style="text-align: center;padding: 10px;">Você já iniciou uma sessão.</p>
+{% else %}
+
+<div class="card shadow mt-2 mb-2" style="max-width: 400px;margin: auto;">
+
+	<header class="card-header text-center p-1">
+		<i class="fas fa-user fa-2x p-3 border border-light bg-white rounded-circle"></i>
+		<h1 class="h3">Identifique-se</h1>
+	</header>
+
+	<section class="card-body pb-0 mb-0 pt-1">
+		
+		<form id="formLogin" method="post" action="#">
+		
+			{% csrf_token %}
+			
+			<fieldset class="pl-2 pr-2">
+			
+				<legend class="h5 text-center">
+					Informe os campos a seguir para continuar
+				</legend>
+
+				{% if form.errors %}
+				
+					<i class="fas fa-times text-danger">
+						<label style="margin: 8px 2px;padding: 3px">
+							Credenciais inválidas.
+						</label>
+					</i>
+				
+				{% endif %}
+
+			  <div class="form-group">
+
+			    <label for="cpf">CPF</label>
+			    {{form.username}}
+			    <small id="cpfHelp" class="form-text text-muted">
+			    	Número do seu CPF, apenas números.
+			    </small>
+			  
+			  </div>
+			  
+			  <div class="form-group">
+			  
+			    <label for="senha">Senha</label>
+			    {{form.password}}
+			  
+			  </div>
+				
+			<div class="form-group text-center">
+				<button type="submit" class="btn btn-primary">Entrar</button>
+			</div>
+
+			</fieldset>
+
+		</form>
+	</section>
+
+	<footer class="card-footer pb-0">
+
+		<div class="row">
+						
+			<div class="col-sm-12 col-md-6 text-center">
+				<p>
+					<a href="{%  url 'conta:cadastro'  %}">Cadastrar-se</a>
+				</p>
+				</div>
+				<div class="col-sm-12 col-md-6 text-center">
+				<p>
+					<a href="#">Lembrar senha</a>
+				</p>
+			</div>
+
+		</div>
+
+	</footer>
+
+</div>
+
+<script type="text/javascript">		
+	$(document).ready(function(){
+		$("#{{form.username.id_for_label}}").addClass("form-control");
+		$("#{{form.password.id_for_label}}").addClass("form-control");
+	});
+</script>
+
+{% endif %}
+{% endblock %}

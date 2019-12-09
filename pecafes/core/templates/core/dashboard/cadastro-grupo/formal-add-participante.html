@@ -1,0 +1,34 @@
+{% extends "core/dashboard/cadastro-grupo/base-add-participante.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+	{% block avisoAoParticipante %}
+		<p class="mt-4">
+			<strong class="text-danger">Atenção:</strong>
+			Antes de <u>Concluir seu cadastro</u> é importante que você adicione todos os participantes
+			da sua associação ou cooperativa e os respectivos produtos que cada participante possui.
+		</p>
+	{%endblock%}
+
+	{% block switch_dap %}
+
+		{% if request.user.grupo.grupoformal.reconhecimento_economia_solidaria %}
+		<div class="custom-control custom-switch">
+		  <input type="checkbox" class="custom-control-input" id="has_dap" checked="checked">
+		  <label class="custom-control-label" for="has_dap" id="has_dap_txt">
+		  	Tenho uma dap para cadastrar
+		  </label>
+		</div>
+		{%endif%} 
+
+	{% endblock%}
+
+
+	{% block btns_cadastro_formal%}
+	  <div class="form-group text-center"> 
+	    <button class="btn btn-primary mb-2" type="submit">Adicionar participante</button>
+	    <a href="{% url 'core:finaliza-cadastro-formal' %}" class="btn btn-primary text-white mb-2">
+	    	Concluir Cadastro
+	    </a>
+	  </div>
+	 {% endblock %}

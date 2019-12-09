@@ -1,0 +1,215 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+{% block dashboard_content %}
+ 
+{% if not tipo_grupo %}
+
+    <p class="text-danger text-center">
+      Erro! Não foi especificado o grupo.
+    </p>
+
+{%elif not entidade_participante %}
+
+    <p class="text-danger text-center">
+      Participante não informado!
+    </p>
+
+{%else%}
+<form method="post" action="{% url 'core:processar-adicionar-produto' %}">
+
+  {% csrf_token %}
+
+  {{produtoGrupoFormSet.management_form}}
+
+<input type="hidden" name="tipo_grupo" value="{{tipo_grupo}}">
+<input type="hidden" name="participante" value="{{entidade_participante}}">
+<input type="hidden" name="redirect_to" value="{{redirect_to}}">
+
+
+  <div class="conteiner-fluid">
+    
+  <h1 class="p-2 text-center h3">Cadastro de Produto</h1>
+
+  {% for produtoGrupoForm in produtoGrupoFormSet %}
+      
+      <div class="row mt-4">
+
+        {% if produtoGrupoForm.quantidade.errors %}
+          <small class="col-sm-12 col-md-12 form-text text-danger pt-1 pb-1">
+          Preencha todos os campos referentes a quantidade!</small>
+        {% endif %}
+
+        {% if produtoGrupoForm.sazonalidade_ano.errors %}
+          <small class="col-sm-12 col-md-12 form-text text-danger pt-1 pb-1">
+          Preencha todos os campos referentes ao ano!</small>
+        {% endif %}
+
+        {% if produtoGrupoForm.sazonalidade_mes_inicial.errors %}
+          <small class="col-sm-12 col-md-12 form-text text-danger pt-1 pb-1">
+          Preencha todos os campos referentes ao mês inicial!</small>
+        {% endif %}
+
+        {% if produtoGrupoForm.sazonalidade_mes_final.errors %}
+          <small class="col-sm-12 col-md-12 form-text text-danger pt-1 pb-1">
+          Preencha todos os campos referentes ao mês final!</small>
+        {% endif %}
+
+
+        <div class="col-sm-1 col-md-1">
+
+          <div class="form-group">
+            <label for="{{produtoGrupoForm.codigo.id_for_label}}" class="font-weight-bold">
+              Código
+            </label>
+            {{produtoGrupoForm.codigo}}
+          </div>
+        
+        </div>
+
+        <div class="col-sm-7 col-md-4">
+
+          <div class="form-group">
+            <label for="{{produtoGrupoForm.nome.id_for_label}}" class="font-weight-bold">
+              Nome do produto
+            </label>
+            {{produtoGrupoForm.nome}}
+          </div>
+        
+        </div>
+        <div class="col-sm-4 col-md-1">
+
+          <div class="form-group">
+            <label for="{{produtoGrupoForm.unidade.id_for_label}}" class="font-weight-bold">
+              Unidade
+            </label>
+            {{produtoGrupoForm.unidade}}
+          </div>
+
+        </div>
+        <div class="col-sm-6 col-md-3">
+
+          <div class="form-group">
+            <label for="{{produtoGrupoForm.quantidade.id_for_label}}" class="font-weight-bold">
+              Capacidade de produção
+            </label>
+            {{produtoGrupoForm.quantidade}}
+          </div>
+        
+        </div>
+
+
+        <div class="col-md-12">
+
+          <div class="form-group">
+            <label for="formGroupExampleInput2" class="font-weight-bold">Selecione os meses que que pode fornecer este produto</label>
+            
+            <div class="row pl-2">
+
+            <span class="p-0 m-0">
+              {{produtoGrupoForm.sazonalidade_janeiro}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_janeiro.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_janeiro.help_text}}
+              </label>
+            </span>
+
+            <span class="p-0 m-0">
+              {{produtoGrupoForm.sazonalidade_fevereiro}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_fevereiro.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_fevereiro.help_text}}
+              </label>
+            </span>
+
+            <span class="p-0 m-0">
+              {{produtoGrupoForm.sazonalidade_marco}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_marco.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_marco.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_abril}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_abril.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_abril.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_maio}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_maio.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_maio.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_junho}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_junho.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_junho.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_julho}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_julho.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_julho.help_text}}
+              </label>
+            </span> 
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_agosto}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_agosto.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_agosto.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_setembro}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_setembro.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_setembro.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_outubro}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_outubro.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_outubro.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_novembro}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_novembro.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_novembro.help_text}}
+              </label>
+            </span>
+
+            <span>
+              {{produtoGrupoForm.sazonalidade_dezembro}}
+              <label class="badge badge-primary" for="{{produtoGrupoForm.sazonalidade_dezembro.id_for_label}}">
+                 {{produtoGrupoForm.sazonalidade_dezembro.help_text}}
+              </label>
+            </span>
+
+            </div>
+
+
+          </div>
+          
+        </div>
+    
+    </div>
+    
+    <hr class="shadow-sm p-1 bg-white rounded">
+
+  {% endfor %}
+
+  </div>
+
+  <div class="form-group text-center pb-2">
+    <button class="btn btn-primary" type="submit">Adicionar produtos</button>
+  </div>
+
+</form>
+{%endif%}
+{% endblock %}

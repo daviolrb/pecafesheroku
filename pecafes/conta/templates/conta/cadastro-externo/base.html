@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block content%}
+<div class="card shadow mt-2 mb-2" style="max-width: 400px;
+										  margin: auto;">
+	
+	<header class="card-header text-center pb-1 pt-1">
+		<i class="fas fa-user fa-2x p-3 border border-light bg-white rounded-circle"></i>
+		<h3>Cadastro</h3>
+	</header>
+
+	<div class="errors">
+			
+		{{ userForm.non_field_errors }}
+		{{ entidadeForm.non_field_errors }}
+		{{ entidadeFisicaForm.non_field_errors }}
+			
+	</div>
+
+	<section class="card-body pt-1">
+		<form id="formLogin" method="post">
+			
+			{% csrf_token %}
+
+			<div class="progress">
+				<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated text-center" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 1.3%;">
+				</div>
+			</div> 
+
+			<!--
+				---------- STEPS ----------
+			-->
+
+			<fieldset id="autenticacao" style="display: none;">
+				
+				<legend class="text-center">
+					Cadastro de Usuário
+				</legend>
+					
+				<div class="form-group">
+					  	
+					<label for="{{form.nomeProponente.id_for_label}}">
+						Nome do proponente
+					</label>
+
+					{% if entidadeForm.nome.errors %}
+					  	
+					<small class="form-text text-muted">
+						{{entidadeForm.nome.errors}}
+					</small>
+					  	
+					{% endif %}
+					  	
+					{{entidadeForm.nome}}
+
+					<small id="nomeHelp" class="form-text text-muted">
+						{{entidadeForm.nome.help_text}}
+					</small>
+
+				</div>
+
+		 		<div class="form-group">
+
+					<label for="{{entidadeFisicaForm.cpf.id_for_label}}">CPF</label>
+
+					{% if entidadeFisicaForm.cpf.errors %}
+					  	
+					  	<small class="form-text text-muted">
+					  		{{entidadeFisicaForm.cpf.errors}}
+					  	</small>
+					  	
+					  	{% endif %}
+					  	
+					  	{{entidadeFisicaForm.cpf}}
+					
+					<small id="cpfHelp" class="form-text text-muted">
+						{{entidadeFisicaForm.cpf.help_text}}
+					</small>
+					
+				</div> 
+
+				<div class="form-group">
+				  	
+				  	<label for="{{userForm.password.id_for_label}}">
+				  		Senha
+				  	</label>
+
+					{% if userForm.password.errors %}
+
+					<small class="form-text text-muted">
+						{{userForm.password.errors}}
+					</small>
+					
+					{% endif %}
+
+					{{userForm.password}}
+
+					<small id="loginHelp" class="form-text text-muted">
+						{{userForm.password.help_text}}
+					</small>
+					
+				</div>
+
+				<div class="form-group">
+					
+					<label for="{{userForm.rPassword.id_for_label}}">
+						Repitir senha
+					</label>
+					  	
+					{% if userForm.rPassword.errors %}
+
+						<small class="form-text text-muted">
+							{{userForm.rPassword.errors}}
+						</small>
+
+					{% endif %}
+					  	
+					{{userForm.rPassword}}
+					  	
+					<small id="r_senhaHelp" class="form-text text-muted">
+					  		{{userForm.rPassword.help_text}}
+					</small>
+
+				</div> 
+
+				<div class="form-group text-center p-0 m-0">
+					<a href="{% url 'conta:cadastro' %}" class="btn btn-danger">Cancelar</a>	
+					<button type="button" id="next-btn-auth" class="btn btn-primary">Próximo</button>	
+				</div>
+
+			</fieldset>
+
+			<fieldset id="endereco" style="display: none;">
+
+				<legend class=" text-center">Seu Endereço</legend>
+				
+				<div class="form-group">
+					<label for="{{entidadeForm.uf.id_for_label}}">UF</label>
+					{% if entidadeForm.uf.errors %}
+					<small class="form-text text-muted">
+						{{entidadeForm.uf.errors}}
+					</small>
+					{% endif %}
+					{{entidadeForm.uf}}			
+				</div>
+
+				<div class="form-group">
+				  	<label for="{{entidadeForm.municipio.id_for_label}}">Município</label>
+				  	
+				  	{% if entidadeForm.municipio.errors %}
+				  	<small class="form-text text-muted">
+				  		{{entidadeForm.municipio.errors}}
+				  		<ul><li>Município não informado!</li></ul>
+				  	</small>
+				  	{% endif %}
+				  	
+				  	{{entidadeForm.municipio}}
+				</div>
+
+				<div class="form-group">
+				  <label for="{{entidadeForm.cep.id_for_label}}">CEP</label>
+				  {% if entidadeForm.cep.errors %}<small class="form-text text-muted">{{entidadeForm.cep.errors}}</small>{% endif %}
+				  {{entidadeForm.cep}}
+				  <small id="cepHelp" class="form-text text-muted">{{entidadeForm.cep.help_text}}</small>
+				</div> 
+
+
+				 <!--Botões para o proximo fieldset -->
+				<div class="form-group text-center p-0 m-0">
+					<button type="button" id="prev-btn-endereco" class="btn btn-primary">Anterior</button>	
+					<button type="button" id="next-btn-endereco" class="btn btn-primary">Próximo</button>	
+				</div>
+
+			</fieldset>
+
+
+
+			<fieldset id="contato" style="display: none;">
+
+				<legend class="text-center">Informações de contato</legend>
+
+				<div class="form-group">
+					
+					<label for="{{entidadeForm.telefone_celular.id_for_label}}">
+						Celular
+					</label>
+
+					{% if entidadeForm.telefone_celular.errors %}
+
+						<small>
+							{{entidadeForm.telefone_celular.errors}}
+						</small>
+
+					{% endif %}
+					
+					{{entidadeForm.telefone_celular}}
+					
+					<small id="celularHelp" class="form-text text-muted">
+						{{entidadeForm.telefone_celular.help_text}}
+					</small>
+
+				</div> 
+
+				<div class="form-group">
+					
+					<label for="{{entidadeForm.telefone_fixo.id_for_label}}">
+						Fixo
+					</label>
+					
+					{% if entidadeForm.telefone_fixo.errors %}
+
+						<small>
+							{{entidadeForm.telefone_fixo.errors}}
+						</small>
+
+					{% endif %}
+
+					{{entidadeForm.telefone_fixo}}
+
+					<small id="fixoHelp" class="form-text text-muted">
+						{{entidadeForm.telefone_fixo.help_text}}
+					</small>
+
+				</div>  
+
+				<div class="form-group">
+
+					<label for="{{userForm.email.id_for_label}}">
+						E-Mail
+					</label>
+
+					{% if userForm.email.errors %}
+
+						<small>
+							{{userForm.email.errors}}
+						</small>
+
+					{% endif %} 
+
+					{{userForm.email}}
+
+					<small id="emailHelp" class="form-text text-muted">
+						{{userForm.email.help_text}}
+					</small>
+
+				</div>
+				
+
+				<hr>
+
+				
+				<div class="form-group">
+
+				<div class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input" id="assistente_tecnico" name="is_assistente_tecnico">
+				  <label class="custom-control-label" for="assistente_tecnico">
+				  	Cadastrar-me como assistente técnico
+				  </label>
+				</div>
+
+				</div>
+
+				<div class="form-group text-center p-0 m-0">
+					<button type="button" id="prev-btn-contato" class="btn btn-primary">Anterior</button>	
+					<button type="submit" class="btn btn-primary">Finalizar Cadastro</button>	
+				</div>
+
+
+			</fieldset>
+
+		</form>
+	</section>
+
+</div>
+
+<script type="text/javascript">
+	
+	$( document ).ready(function() {
+		$("#autenticacao").css({"display": "block"});
+
+		$("#progress-bar").css({"width": "25%"});
+
+	});
+
+	function fillSelectMunicipio(id_uf, cidade_field){ 
+		$.ajax({
+			type: 'GET',
+			url: `/lista-cidade/${id_uf}`,
+			dataType: 'json',
+			success: function(cidades){ 
+				$(`#${cidade_field}`).empty()
+				for (var i = 0 ; i < cidades.length ; i++) {
+				$(`#${cidade_field}`).append(new Option(cidades[i]['fields'].municipio, cidades[i].pk));
+				}
+		}
+		});	
+	}
+ 
+	function nextStep(current = null, next, percent){
+		//$(´#${next}´).css({"display": "block"});
+		if(current != null)
+			$(`#${next}`).css({"display": "block"});
+		
+		$(`#${current}`).css({"display": "none"});
+		$("#progress-bar").css({"width": `${percent}%`});
+	}
+
+
+
+		//Autenticacao
+		$("#next-btn-auth").click(function(){ 
+			nextStep('autenticacao', 'endereco', 40); 
+		});
+
+		//Contato
+		$("#prev-btn-contato").click(function(){
+			nextStep('contato', 'endereco', 60);  
+		});
+		$("#next-btn-contato").click(function(){
+			nextStep('contato', 'extra', 99);
+		});
+
+		//Endereço
+		$("#prev-btn-endereco").click(function(){
+			nextStep('endereco', 'autenticacao', 40);  
+		});
+		$("#next-btn-endereco").click(function(){
+			nextStep('endereco', 'contato', 80);  
+		});
+		 
+		$("#{{entidadeForm.uf.id_for_label}}").change(function(){
+			fillSelectMunicipio(this.value, "{{entidadeForm.municipio.id_for_label}}");
+		});
+
+
+		$(`input[name="{{grupoInformalForm.has_entidade_articulada.name}}"]`).change(function(){
+
+			if(this.value == 1){
+				$("#show-entidade-articulada").css({"display": "block"});
+			}else{
+				$("#show-entidade-articulada").css({"display": "none"});
+			}
+
+		});
+
+
+
+</script>
+
+{%endblock%}

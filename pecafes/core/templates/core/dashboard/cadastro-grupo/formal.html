@@ -1,0 +1,438 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+    {% block content %}
+s
+      <section class="container shadow pb-4">
+
+        {% if not request.user.grupo.grupoformal %}
+
+        <header class="text-center" style="margin: auto;">
+            
+        </header>
+ 
+          <form class="p-4" style="max-width: 700px;margin: auto;" method="post" action="{% url 'core:cadastro-formal' %}">
+
+            {% csrf_token %}
+
+            <fieldset class="form-group form-row">
+
+            	<legend class="text-center">Cadastro de Cooperativas e associações</legend>
+
+            	{% if entidadeFormSet %}
+				<div class="form-group col-md-8">
+					<label for="{{entidadeFormSet.0.nome.id_for_label}}">
+						Nome do proponente
+					</label>
+					{% if entidadeFormSet.0.nome.errors %}
+						<small>
+							{{entidadeFormSet.0.nome.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.0.nome}}
+					<small id="nome_representantelHelp" class="form-text text-muted">
+						{{entidadeFormSet.0.nome.help_text}}
+					</small>
+				</div>
+				{% else %}
+				<div class="form-group col-md-8">
+					<label for="{{entidadeForm.nome.id_for_label}}">
+						Nome do proponente
+					</label>
+					{% if entidadeForm.nome.errors %}
+						<small>
+							{{entidadeForm.nome.errors}}
+						</small>
+					{% endif %}
+					{{entidadeForm.nome}}
+					<small id="nome_representantelHelp" class="form-text text-muted">
+						{{entidadeForm.nome.help_text}}
+					</small>
+				</div>
+				{% endif %}
+
+				<div class="form-group col-md-4">
+					<label for="{{entidadeJuridicaForm.cnpj.id_for_label}}">
+						CNPJ
+					</label>
+					{% if entidadeJuridicaForm.cnpj.errors %}
+						<small>{{entidadeJuridicaForm.cnpj.errors}}</small>
+					{% endif %}
+					{{entidadeJuridicaForm.cnpj}}
+					<small id="cnpjHelp" class="form-text text-muted">
+						Sem ponto e traço, apenas números.
+					</small>
+				</div>
+
+				<div class="form-group col-md-8">
+					<label for="{{grupoFormalForm.dap_juridica.id_for_label}}">
+						Código da DAP Jurídica
+					</label>
+					{% if grupoFormalForm.dap_juridica.errors %}
+						<small>
+							{{grupoFormalForm.dap_juridica.errors}}
+						</small>
+					{% endif %}
+					{{grupoFormalForm.dap_juridica}}
+					<small id="dapHelp" class="form-text text-muted">
+						{{grupoFormalForm.dap_juridica.help_text}}
+					</small>
+				</div> 
+
+				{%if entidadeFormSet %}
+				<div class="form-group col-md-4">
+					<label for="{{entidadeFormSet.0.uf.id_for_label}}">UF</label>
+					{% if entidadeFormSet.0.uf.errors %}
+						<small>
+							{{entidadeFormSet.0.uf.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.0.uf}}
+				</div>
+				{%else%}
+				<div class="form-group col-md-4">
+					<label for="{{entidadeForm.uf.id_for_label}}">UF</label>
+					{% if entidadeForm.uf.errors %}
+						<small>
+							{{entidadeForm.uf.errors}}
+						</small>
+					{% endif %}
+					{{entidadeForm.uf}}
+				</div>
+				{%endif%}
+
+				{% if entidadeFormSet %}
+				<div class="form-group col-md-5">
+					<label for="{{entidadeFormSet.0.municipio.id_for_label}}">
+						Município
+					</label>
+					{% if entidadeFormSet.0.municipio.errors %}
+						<small>
+							{{entidadeFormSet.0.municipio.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.0.municipio}}
+				</div>
+				{%else%}
+				<div class="form-group col-md-5">
+					<label for="{{entidadeForm.municipio.id_for_label}}">
+						Município
+					</label>
+					{% if entidadeForm.municipio.errors %}
+						<small>
+							{{entidadeForm.municipio.errors}}
+						</small>
+					{% endif %}
+					{{entidadeForm.municipio}}
+				</div>
+				{%endif%}
+
+				{% if entidadeFormSet %}
+				<div class="form-group col-md-3">
+					<label for="{{entidadeFormSet.0.cep.id_for_label}}">CEP</label>
+					{% if entidadeFormSet.0.cep.errors %}
+						<small>
+							{{entidadeFormSet.0.cep.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.0.cep}}
+					<small id="cep_representanteHelp" class="form-text text-muted">
+						{{entidadeFormSet.0.cep.help_text}}
+					</small>
+				</div> 
+				{%else%}
+				<div class="form-group col-md-3">
+					<label for="{{entidadeForm.cep.id_for_label}}">CEP</label>
+					{% if entidadeForm.cep.errors %}
+						<small>
+							{{entidadeFormSet.cep.errors}}
+						</small>
+					{% endif %}
+					{{entidadeForm.cep}}
+					<small id="cep_representanteHelp" class="form-text text-muted">
+						{{entidadeForm.cep.help_text}}
+					</small>
+				</div> 
+				{%endif%}
+ 
+				{% if entidadeFormSet %}
+				<div class="form-group">
+					<label for="{{entidadeFormSet.0.telefone_celular.id_for_label}}">
+						Celuar
+					</label>
+					{% if entidadeFormSet.0.telefone_celular.errors %}
+						<small>
+							{{entidadeFormSet.0.telefone_celular.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.0.telefone_celular}}
+					<small id="celularHelp" class="form-text text-muted">
+						{{entidadeFormSet.0.telefone_celular.help_text}}
+					</small>
+				</div>
+				{%else%}
+				<div class="form-group">
+					<label for="{{entidadeForm.telefone_celular.id_for_label}}">
+						Celuar
+					</label>
+					{% if entidadeForm.telefone_celular.errors %}
+						<small>
+							{{entidadeForm.telefone_celular.errors}}
+						</small>
+					{% endif %}
+					{{entidadeForm.telefone_celular}}
+					<small id="celularHelp" class="form-text text-muted">
+						{{entidadeForm.telefone_celular.help_text}}
+					</small>
+				</div>
+				{%endif%}
+
+				{% if entidadeFormSet %}
+				<div class="form-group">
+					<label for="{{entidadeFormSet.0.telefone_fixo.id_for_label}}">
+						Telefone Fixo
+					</label>
+					{% if entidadeFormSet.0.telefone_fixo.errors %}
+						<small>
+							{{entidadeFormSet.0.telefone_fixo.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.0.telefone_fixo}}
+					<small id="fixoHelp" class="form-text text-muted">
+						Telefone fixo, caso tenha
+					</small>
+				</div>
+				{%else%}
+				<div class="form-group">
+					<label for="{{entidadeForm.telefone_fixo.id_for_label}}">
+						Telefone Fixo
+					</label>
+					{% if entidadeForm.telefone_fixo.errors %}
+						<small>
+							{{entidadeForm.telefone_fixo.errors}}
+						</small>
+					{% endif %}
+					{{entidadeForm.telefone_fixo}}
+					<small id="fixoHelp" class="form-text text-muted">
+						Telefone fixo, caso tenha
+					</small>
+				</div>
+				{%endif%}
+
+            </fieldset>
+
+            <hr>
+
+            <fieldset class="form-group form-row">
+				
+				<div class="form-group col-md-4">
+					<label for="{{grupoFormalForm.reconhecimento_quilombola.id_for_label}}">
+						Possui reconhecimento quilombola?
+					</label>
+					{% for option in grupoFormalForm.reconhecimento_quilombola %}
+					<div class="custom-control custom-radio">
+						{{option.tag}}
+						<label for="{{option.id_for_label}}" class="custom-control-label">
+							{{option.choice_label}}
+						</label>
+					</div>
+					{% endfor %}
+				</div>
+
+				<div class="form-group col-md-4">
+					<label for="{{grupoFormalForm.reconhecimento_economia_solidaria.id_for_label}}">
+						Possui reconhecimento da economia solidaria?
+					</label>
+					{% for option in grupoFormalForm.reconhecimento_economia_solidaria %}
+					<div class="custom-control custom-radio">
+						{{option.tag}}
+						<label for="{{option.id_for_label}}" class="custom-control-label">
+							{{option.choice_label}}
+						</label>
+					</div>
+					{% endfor %}
+				</div>
+
+
+				<div class="form-group col-md-4">
+					<label for="{{grupoFormalForm.reconhecimento_indigena.id_for_label}}">
+						Possui reconhecimento indígena?
+					</label>
+					{% for option in grupoFormalForm.reconhecimento_indigena %}
+					<div class="custom-control custom-radio">
+						{{option.tag}}
+						<label for="{{option.id_for_label}}" class="custom-control-label">
+							{{option.choice_label}}
+						</label>
+					</div>
+					{% endfor %}
+
+				</div>
+
+				<div class="form-group">
+					<label for="{{grupoFormalForm.ano_fundacao.id_for_label}}">
+						Ano de formação
+					</label>
+					{{grupoFormalForm.ano_fundacao}}
+					<small id="anoFormacaoHelp" class="form-text text-muted">
+						{{grupoFormalForm.ano_fundacao.help_text}}
+					</small>
+				</div>
+			</fieldset>
+
+            <hr>
+
+            <fieldset class="form-group form-row">
+            	
+            {% if is_representante == "no" %}
+ 
+           	 	<input type="hidden" name="is_representante" value="no">
+
+           	 	{{entidadeFormSet.management_form}}
+
+				<legend class="text-center">Dados do representante legal</legend>
+
+				<div class="form-group col-md-8">
+					<label for="{{entidadeFormSet.1.nome.id_for_label}}">
+						Nome do Completo
+					</label>
+					{% if entidadeFormSet.1.nome.errors %}
+						<small>
+							{{entidadeFormSet.1.nome.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.1.nome}}
+					<small id="nome_representantelHelp" class="form-text text-muted">
+						{{entidadeFormSet.1.nome.help_text}}
+					</small>
+				</div>
+
+				<div class="form-group col-md-4">
+					<label for="{{entidadeFisicaForm.cpf.id_for_label}}">
+						CPF
+					</label>
+					{% if entidadeFisicaForm.cpf.errors %}
+						<small>
+							{{entidadeFisicaForm.cpf.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFisicaForm.cpf}}
+					<small id="cpf_representantelHelp" class="form-text text-muted">
+						{{entidadeFisicaForm.cpf.help_text}}
+					</small>
+				</div>
+
+				<div class="form-group col-md-4">
+					<label for="{{entidadeForm.uf.id_for_label}}">UF</label>
+					{% if entidadeFormSet.1.uf.errors %}
+						<small>
+							{{entidadeFormSet.1.uf.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.1.uf}}
+				</div>
+
+				<div class="form-group col-md-5">
+					<label for="{{entidadeFormSet.1.municipio.id_for_label}}">
+						Município
+					</label>
+					{% if entidadeFormSet.1.municipio.errors %}
+						<small>
+							{{entidadeFormSet.1.municipio.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.1.municipio}}
+				</div>
+
+				<div class="form-group col-md-3">
+					<label for="{{entidadeForm.cep.id_for_label}}">CEP</label>
+					{% if entidadeFormSet.1.cep.errors %}
+						<small>
+							{{entidadeFormSet.1.cep.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.1.cep}}
+					<small id="cep_representanteHelp" class="form-text text-muted">
+						{{entidadeFormSet.1.cep.help_text}}
+					</small>
+				</div> 
+ 
+				<div class="form-group">
+					<label for="{{entidadeFormSet.1.telefone_celular.id_for_label}}">
+						Fone Celuar
+					</label>
+					{% if entidadeFormSet.1.telefone_celular.errors %}
+						<small>
+							{{entidadeFormSet.1.telefone_celular.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.1.telefone_celular}}
+					<small id="celularHelp" class="form-text text-muted">
+						{{entidadeFormSet.1.telefone_celular.help_text}}
+					</small>
+				</div>
+
+				<div class="form-group">
+					<label for="{{entidadeFormSet.1.telefone_fixo.id_for_label}}">
+						Telefone Fixo
+					</label>
+					{% if entidadeFormSet.1.telefone_fixo.errors %}
+						<small>
+							{{entidadeFormSet.1.telefone_fixo.errors}}
+						</small>
+					{% endif %}
+					{{entidadeFormSet.1.telefone_fixo}}
+					<small id="fixoHelp" class="form-text text-muted">
+						Telefone fixo, caso tenha
+					</small>
+				</div>
+
+            {%else%}
+            	<input type="hidden" name="is_representante" value="yes">
+            {%endif%}
+
+            </fieldset>
+
+            <div class="form-group form-check text-center">
+              <button type="submit" class="btn btn-primary">
+              	Avançar para o cadastro de participantes
+              </button>
+            </div>
+
+          </form>
+
+          {% else %}
+
+            <p class="p-4 text-center text-success">
+            	Você já está cadastrado no grupo de associações e cooperativas
+            </p>
+
+          {% endif %}
+
+      </section>
+
+<script type="text/javascript">
+	
+	function fillSelectMunicipio(id_uf, cidade_field){ 
+		$.ajax({
+			type: 'GET',
+			url: `/lista-cidade/${id_uf}`,
+			dataType: 'json',
+			success: function(cidades){ 
+				$(`#${cidade_field}`).empty()
+				for (var i = 0 ; i < cidades.length ; i++) {
+				$(`#${cidade_field}`).append(new Option(cidades[i]['fields'].municipio, cidades[i].pk));
+				}
+		}
+		});	
+	}
+
+		$("#{{entidadeForm.uf.id_for_label}}").change(function(){
+			fillSelectMunicipio(this.value, "{{entidadeForm.municipio.id_for_label}}");
+		});
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+{% block dashboard_content %}
+ 
+  {% if msg_participante_criado %}
+    <p class="mt-2 pb-3 text-center text-success">
+      O participante foi adicionado a sua lista
+      <hr>
+    </p>
+  {% endif %}
+ 
+{% if request.user.entidade.grupo.is_formal or request.user.entidade.grupo.is_informal %}
+
+<h1 class="mt-2 pb-3 text-center h3">
+  Lista de participantes cadastrados
+</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th class="text-left" scope="col">Participante</th>
+      <th scope="col">CPF</th>
+      <th scope="col">DAP</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+
+  	<caption>
+  		<p>Lista de participantes associados a este grupo</p>
+  	</caption>
+
+  	{% for participante in participantes %}
+	    <tr>
+	    	<td>{{participante.participante.nome}}</td>
+	    	<td>{{participante.participante.entidadefisica.cpf}}</td>
+	    	<td>
+	    		{% if participante.participante.grupo %}
+	    		{{participante.participante.grupo.grupoindividual.dap_fisica}}
+	    		{% else %}
+	    			Participante não possui dap
+	    		{% endif %}
+	    	</td>
+	    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+{%else%}
+    <p class="text-danger text-center pt-4 pb-4">
+      Esta opção não está disponível para grupos individuais!
+    </p>
+ {% endif %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "core/dashboard/base-dashboard.html" %}
+
+{% block title %}Painel de Controle{% endblock %}
+
+{% block content %}
+ 
+ {% if not request.user.grupo.cadastro_formal_iniciado %}
+<form class="p-4" style="max-width: 700px;margin: auto;" method="post" action="{% url 'core:cadastro-formal' %}">
+
+	{% csrf_token %}
+
+  <fieldset class="form-group">
+
+    <label for="produtos">
+      Você é o representamte <strong>legal</strong> da associação ou cooperativa?
+    </label>
+    
+    <div class="container-fluid">
+ 
+    <div class="custom-control custom-radio custom-control-inline pt-2">
+      <input type="radio" id="seleciona-formal-sim" name="seleciona-formal" value="yes" class="custom-control-input">
+      <label class="custom-control-label" for="seleciona-formal-sim">Sim, eu sou o representante legal.</label>
+    </div>  
+
+    <div class="custom-control custom-radio custom-control-inline pt-2">
+      <input type="radio" id="seleciona-formal-nao" name="seleciona-formal" value="no" class="custom-control-input">
+      <label class="custom-control-label" for="seleciona-formal-nao">Não, eu sou não sou o representante legal.</label>
+    </div>  
+
+    </div>
+
+  
+
+  </fieldset>
+
+  <div class="form-group form-check text-center">
+    <button type="submit" class="btn btn-primary">Prosseguir cadastro</button>
+  </div>
+
+</form>
+{%else%}
+  
+  <p class="p-5 text-warning text-center">
+    Esta etapa do cadastro já foi concluida, agora você deve cadastrar os participantes.
+  </p>
+  
+
+{%endif%}
+
+{% endblock %}
